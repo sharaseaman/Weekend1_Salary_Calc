@@ -1,6 +1,6 @@
 var formInfo = [];
+var totalSalary = 0;
 var monthlyCost = 0;
-var annualCost = 0;
 
 $(document).ready(onReady);
 
@@ -9,6 +9,8 @@ function onReady() {
     
     // event listeners go here
     $('#submitButton').on('click', addInfo)
+    $('#submitButton').on('click', displayEmployees);
+    
 }
 
 function addInfo(){
@@ -39,10 +41,26 @@ function Info( firstName, lastName, idNumber, jobTitle, annualSalary ){
     formInfo.push( this);
 } // end info constructor
 
-function calculate(){
-    
-    for (var i = 0; i < formInfo.length; i++) {
-          
+function calcSalaries( formInfo ) {
+    // var for total salary
 
+    // loop through array
+    for (var i = 0; i < formInfo.length; i++) {
+        totalSalary += formInfo[i].annualSalary;
     }
+    monthlyCost = totalSalary / 12;
 }
+
+function displayEmployees() {
+
+        $('#displayEmployee').append('<tr id=' + formInfo.slice(-1)[0].idNumber + '>' + 
+            '<td>' + formInfo.slice(-1)[0].firstName + '</td>' + 
+            '<td>' + formInfo.slice(-1)[0].lastName + '</td>' +  
+           // '<td>' + formInfo.slice(-1)[0].idNumber + '</td>' +
+           // '<td>' + formInfo.slice(-1)[0].jobTitle + '</td>' +
+            '<td>' + formInfo.slice(-1)[0].annualSalary + '</td>' +
+          //  '<td>' + '<button class="delete">Delete</button>' + '</td>' +
+            '</tr>'
+        );
+    } // end displayEmployees 
+    
