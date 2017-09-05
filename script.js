@@ -1,6 +1,3 @@
-var formInfo = [];
-var totalSalary = 0;
-var monthlyCost = 0;
 
 $(document).ready(onReady);
 
@@ -9,18 +6,23 @@ function onReady() {
     
     // event listeners go here
     $('#submitButton').on('click', addInfo)
-    $('#submitButton').on('click', displayEmployees);
     
 }
+
+  //global variables
+var formInfo = [];
+var totalSalary = 0;
+var monthlyCost = 0;
 
 function addInfo(){
     console.log('addInfo click button working');
    
-    new Info ($( '#firstName' ).val(),
+    var newPerson = new Person ($( '#firstName' ).val(),
               $( '#lastName' ).val(), 
               $( '#idNumber' ).val(), 
               $( '#jobTitle' ).val(), 
-              $( '#annualSalary' ).val())
+              $( '#annualSalary' ).val());
+
        //reset       
     $( '#firstName' ).val( '' ); 
     $( '#lastName' ).val( '' );
@@ -28,11 +30,21 @@ function addInfo(){
     $( '#jobTitle' ).val( '' );
     $( '#annualSalary' ).val( '' );
     console.log(formInfo);
+
+    $('#displayEmployee').append('<tr><td>' + newPerson.firstName + 
+    '</td><td>' + newPerson.lastName + 
+    '</td><td>' + newPerson.idNumber +
+     '</td><td>' + newPerson.jobTitle + 
+     '</td><td>' + newPerson.annualSalary + 
+     '</td><td>' + newPerson.monthlySalary 
+     );
+     $('#monthlyCost').html('<p>'+'Total Monthly Costs: $'+calTotalMonthlyCost(formInfo)+'</p>')
+     
 } //end 
 
 
 // info object constructor
-function Info( firstName, lastName, idNumber, jobTitle, annualSalary ){
+function Person( firstName, lastName, idNumber, jobTitle, annualSalary ){
     this.firstName = firstName;
     this.lastName = lastName;
     this.idNumber = idNumber;
@@ -40,6 +52,9 @@ function Info( firstName, lastName, idNumber, jobTitle, annualSalary ){
     this.annualSalary = annualSalary;   
     formInfo.push( this);
 } // end info constructor
+
+
+
 
 function calcSalaries( formInfo ) {
     // var for total salary
@@ -51,16 +66,5 @@ function calcSalaries( formInfo ) {
     monthlyCost = totalSalary / 12;
 }
 
-function displayEmployees() {
-
-        $('#displayEmployee').append('<tr id=' + formInfo.slice(-1)[0].idNumber + '>' + 
-            '<td>' + formInfo.slice(-1)[0].firstName + '</td>' + 
-            '<td>' + formInfo.slice(-1)[0].lastName + '</td>' +  
-           // '<td>' + formInfo.slice(-1)[0].idNumber + '</td>' +
-           // '<td>' + formInfo.slice(-1)[0].jobTitle + '</td>' +
-            '<td>' + formInfo.slice(-1)[0].annualSalary + '</td>' +
-          //  '<td>' + '<button class="delete">Delete</button>' + '</td>' +
-            '</tr>'
-        );
-    } // end displayEmployees 
+    
     
